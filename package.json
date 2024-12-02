@@ -1,0 +1,25 @@
+{
+  "name": "boilerplate-todolist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "hello": "pnpm --filter @app/hello",
+    "common": "pnpm --filter @packages/common",
+    "redis-connector": "pnpm --filter @packages/redis-connector",
+    "boilerplate-todolist": "pnpm --filter @apps/boilerplate-todolist",
+    "dev:boilerplate-todolist": "pnpm run @app/boilerplate-todolist dev",
+    "packages:build": "pnpm run common build && pnpm run redis-connector build && pnpm run boilerplate-todolist build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2"
+  }
+}
