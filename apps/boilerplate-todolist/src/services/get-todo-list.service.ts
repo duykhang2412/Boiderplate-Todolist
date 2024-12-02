@@ -1,4 +1,4 @@
-import { getById, getTodos } from '../models/getTodo';
+import { getById, getTodos } from '../models/get-todo-list';
 
 export const getTodolist = async (c: any) => {
     const id = parseInt(c.req.param('id'), 10);
