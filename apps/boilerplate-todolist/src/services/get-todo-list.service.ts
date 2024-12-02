@@ -1,10 +1,20 @@
+import { IdsSchemaNumber } from 'src/validations/typia-validator';
 import { getById, getTodos } from '../models/get-todo-list';
+import typia from 'typia';
+import { error } from 'console';
+import { err } from 'neverthrow';
 
 export const getTodolist = async (c: any) => {
     const id = parseInt(c.req.param('id'), 10);
-    if (isNaN(id) || id < 0) {
-        return c.json({ error: 'Invalid ID' }, 400);
-    }
+
+    const validation = IdsSchemaNumber(id);
+
+
+    if (!validation.success)
+        return c.json({
+            error: 'Invalid ID',
+            details: validation.errors.map((err) => err.path),
+        }, 400);
     try {
         const todo = await getById(id);
         return c.json({ todo }, 200);

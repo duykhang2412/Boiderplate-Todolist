@@ -1,21 +1,22 @@
+import { IdsSchema } from 'src/validations/typia-validator';
 import { deleteTodo } from '../models/delete-todo-list';
-import { getTodos } from '../models/get-todo-list'
+import { getTodos } from '../models/get-todo-list';
+import typia from 'typia';
+import { error } from 'console';
+
+
+
 export const deleteTodolist = async (c: any) => {
     try {
         // Lấy danh sách ID từ URL param `:id` (phân tách bởi dấu phẩy)
         const idsParam = c.req.param('id');
         const ids = idsParam ? idsParam.split(',').map((id: string) => parseInt(id.trim(), 10)) : [];
 
-        // Kiểm tra nếu danh sách ID rỗng hoặc có ID không hợp lệ
-        if (ids.length === 0) {
-            return c.json({ error: 'No IDs provided' }, 400);
-        }
-
-        const invalidIds = ids.filter((id: number) => isNaN(id) || id < 0);
-        if (invalidIds.length > 0) {
+        const validation = IdsSchema(ids);
+        if (!validation.success) {
             return c.json({
-                error: 'Invalid ID(s) provided',
-                invalidIds,
+                error: 'Invalid ID',
+                details: validation.errors.map((err) => err.path),
             }, 400);
         }
 
